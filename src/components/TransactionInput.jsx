@@ -1,4 +1,6 @@
 import { useState } from "react"
+import "./components/TransactionInput.css"
+
 
 const TYPES = ["credited", "debited", "invested"]
 const CATEGORIES = ["stocks", "gym", "others"]

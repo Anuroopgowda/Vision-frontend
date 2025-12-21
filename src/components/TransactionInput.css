@@ -1,0 +1,71 @@
+.transaction-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;            /* dark card */
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
+}
+
+/* Shared styles */
+.transaction-input select,
+.transaction-input input {
+  background: #020617;
+  border: 1px solid #1e293b;
+  color: #e5e7eb;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.transaction-input select {
+  text-transform: capitalize;
+}
+
+/* Amount input narrower */
+.transaction-input input {
+  width: 110px;
+}
+
+/* Focus effect */
+.transaction-input select:focus,
+.transaction-input input:focus {
+  border-color: #38bdf8;
+}
+
+/* Add button */
+.btn-add {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  color: #022c22;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .transaction-input {
+    flex-wrap: wrap;
+  }
+
+  .transaction-input input {
+    width: 100%;
+  }
+}

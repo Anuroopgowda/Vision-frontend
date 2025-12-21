@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./App.css"
 import MonthYearSelector from "./components/MonthYearSelector"
 import TransactionInput from "./components/TransactionInput"
@@ -15,48 +15,61 @@ function App() {
   const [year, setYear] = useState(now.getFullYear())
   const [transactions, setTransactions] = useState([])
 
-  const SAVE_URL = "http://127.0.0.1:8000/vision"
+  const BASE_URL = "http://127.0.0.1:8000/vision"
 
-  function handleAddTransaction(txn) {
-    setTransactions(prev => [...prev, txn])
+  // 🔹 Fetch activity from backend
+  async function fetchActivity(m = month, y = year) {
+    try {
+      const res = await fetch(`${BASE_URL}?month=${m}&year=${y}`)
+      if (!res.ok) throw new Error("Failed to load activity")
+
+      const data = await res.json()
+
+      const activity = data.activity || {}
+
+      // 🔁 Convert dict → flat list
+      const flat = []
+      Object.entries(activity).forEach(([type, items]) => {
+        items.forEach(i => {
+          flat.push({ type, ...i })
+        })
+      })
+
+      setTransactions(flat)
+    } catch (err) {
+      console.error(err)
+      setTransactions([])
+    }
   }
 
-  async function handleSave() {
-   
+  // 🔹 Load when month/year changes
+  useEffect(() => {
+    fetchActivity()
+  }, [month, year])
 
-    const payload = {
-      month,
-      year
-    }
-
-    console.log("Sending payload:", payload)
+  // 🔹 Add transaction
+  async function handleAddTransaction(txn) {
+    const payload = { month, year, txn }
 
     try {
-      const res = await fetch(SAVE_URL, {
+      const res = await fetch(BASE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
 
-      if (!res.ok) {
-        const text = await res.text()
-        throw new Error(text || res.statusText)
-      }
+      if (!res.ok) throw new Error("Save failed")
 
-      alert("Saved successfully")
-      setTransactions([])
+      await fetchActivity()
     } catch (err) {
-      alert("Save failed: " + err.message)
+      alert(err.message)
     }
   }
 
   return (
     <div className="app">
-
-      {/* HEADER */}
       <header className="header-main">Vision</header>
 
-      {/* TOOLBAR */}
       <div className="header-toolbar">
         <div className="toolbar-left">
           <MonthYearSelector
@@ -65,23 +78,14 @@ function App() {
               setYear(y)
             }}
           />
-
-          <TransactionInput onAdd={handleAddTransaction} />
-        </div>
-
-        <div className="toolbar-right">
-          <div style={{ color: "#9ca3af", fontSize: 14 }}>
-            Welcome back — data ready
-          </div>
-          <button className="btn-save" onClick={handleSave}>
-            Save
-          </button>
         </div>
       </div>
 
-      {/* CONTENT */}
       <main className="content">
         <section className="dashboard">
+
+          <TransactionInput onAdd={handleAddTransaction} />
+
           <div className="card">
             <h2>{months[month]} {year}</h2>
             <p className="muted">Transactions</p>

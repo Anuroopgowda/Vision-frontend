@@ -15,7 +15,7 @@ function App() {
   const [year, setYear] = useState(now.getFullYear())
   const [transactions, setTransactions] = useState([])
 
-  console.log("API URL:", import.meta.env.VITE_API_BASE_URL)
+  console.log("API URL:", import.meta.env.VITE_API_URL)
   console.log("Current Month/Year:", month, year)
   const BASE_URL = import.meta.env.VITE_API_URL
 

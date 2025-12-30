@@ -17,7 +17,7 @@ function App() {
 
   console.log("API URL:", import.meta.env.VITE_API_BASE_URL)
   console.log("Current Month/Year:", month, year)
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL
+  const BASE_URL = import.meta.env.VITE_API_URL
 
   // 🔹 Fetch activity from backend
   async function fetchActivity(m = month, y = year) {

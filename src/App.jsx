@@ -11,11 +11,13 @@ const months = [
 function App() {
   const now = new Date()
 
-  const [month, setMonth] = useState(now.getMonth())
+  const [month, setMonth] = useState(now.getMonth() + 1)
   const [year, setYear] = useState(now.getFullYear())
   const [transactions, setTransactions] = useState([])
 
-  const BASE_URL = "http://127.0.0.1:8000/vision"
+  console.log("API URL:", import.meta.env.VITE_API_BASE_URL)
+  console.log("Current Month/Year:", month, year)
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   // 🔹 Fetch activity from backend
   async function fetchActivity(m = month, y = year) {

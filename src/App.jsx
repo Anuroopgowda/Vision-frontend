@@ -13,12 +13,15 @@ function App() {
 
   const [month, setMonth] = useState(now.getMonth() + 1)
   const [year, setYear] = useState(now.getFullYear())
-  const [transactions, setTransactions] = useState([])
 
-  console.log("Current Month/Year:", month, year)
+  const [transactions, setTransactions] = useState([])
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [investmentAmount, setInvestmentAmount] = useState(0)
+
+  // const BASE_URL = "http://localhost:8000/vision"
   const BASE_URL = import.meta.env.VITE_API_URL
 
-  // 🔹 Fetch activity from backend
+  // 🔹 Fetch activity + totals from backend
   async function fetchActivity(m = month, y = year) {
     try {
       const res = await fetch(`${BASE_URL}?month=${m}&year=${y}`)
@@ -26,9 +29,13 @@ function App() {
 
       const data = await res.json()
 
+      // ✅ Totals
+      setTotalAmount(data.total_amount || 0)
+      setInvestmentAmount(data.investment_amount || 0)
+
       const activity = data.activity || {}
 
-      // 🔁 Convert dict → flat list
+      // 🔁 Convert { credited:[], debited:[] } → flat list
       const flat = []
       Object.entries(activity).forEach(([type, items]) => {
         items.forEach(i => {
@@ -40,10 +47,12 @@ function App() {
     } catch (err) {
       console.error(err)
       setTransactions([])
+      setTotalAmount(0)
+      setInvestmentAmount(0)
     }
   }
 
-  // 🔹 Load when month/year changes
+  // 🔹 Reload when month/year changes
   useEffect(() => {
     fetchActivity()
   }, [month, year])
@@ -56,7 +65,7 @@ function App() {
       const res = await fetch(BASE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       })
 
       if (!res.ok) throw new Error("Save failed")
@@ -88,7 +97,21 @@ function App() {
           <TransactionInput onAdd={handleAddTransaction} />
 
           <div className="card">
-            <h2>{months[month]} {year}</h2>
+
+            {/* Month + totals */}
+            <div className="month-header">
+              <h2>{months[month - 1]} {year}</h2>
+
+              <div className="amount-summary">
+                <span className="total">
+                  Total: ₹{totalAmount}
+                </span>
+                <span className="invested">
+                    Invested: ₹{investmentAmount}
+                </span>
+              </div>
+            </div>
+
             <p className="muted">Transactions</p>
 
             {transactions.length === 0 ? (
@@ -103,6 +126,7 @@ function App() {
               </ul>
             )}
           </div>
+
         </section>
       </main>
     </div>

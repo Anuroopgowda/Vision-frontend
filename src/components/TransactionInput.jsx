@@ -1,8 +1,8 @@
 import { useState } from "react"
 import "./TransactionInput.css"
 
-const TYPES = ["credited", "debited", "invested"]
-const CATEGORIES = ["stocks", "gym", "others"]
+const TYPES = ["credited", "debited", "invested","savings"]
+const CATEGORIES = ["stocks", "Bus", "TV", "Metro", "Family", "Daily products", "Salary", "Recharge", "Electricity bill", "fashion", "Loan", "Others"]
 
 function TransactionInput({ onAdd }) {
   const [type, setType] = useState("credited")

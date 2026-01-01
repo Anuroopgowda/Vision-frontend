@@ -34,7 +34,8 @@ function App() {
   const [totalSavings, setTotalSavings] = useState(0)
   const [totalInvested, setTotalInvested] = useState(0)
 
-  const BASE_URL = "http://localhost:8000/vision"
+  // const BASE_URL = "http://localhost:8000/vision"
+  const BASE_URL = import.meta.env.VITE_API_URL
 
   // -----------------------------
   // FETCH MONTH DATA

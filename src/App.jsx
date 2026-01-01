@@ -19,6 +19,7 @@ function App() {
 
   const [transactions, setTransactions] = useState([])
 
+
   // Monthly numbers
   const [openingBalance, setOpeningBalance] = useState(0)
   const [closingBalance, setClosingBalance] = useState(0)
@@ -26,6 +27,10 @@ function App() {
   const [expense, setExpense] = useState(0)
   const [saving, setSaving] = useState(0)
   const [invested, setInvested] = useState(0)
+
+  // const BASE_URL = "http://localhost:8000/vision"
+  const BASE_URL = import.meta.env.VITE_API_URL
+
 
   const [isMonthClosed, setIsMonthClosed] = useState(false)
 

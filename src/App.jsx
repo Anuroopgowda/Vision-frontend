@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import "./App.css"
 import MonthYearSelector from "./components/MonthYearSelector"
 import TransactionInput from "./components/TransactionInput"
+import SpendLimitChart from "./components/SpendLimitChart"
+import DebitLimitChart from "./components/DebitLimitChart"
+
 
 const months = [
   "January","February","March","April","May","June",
@@ -33,6 +36,8 @@ function App() {
   const [currentBalance, setCurrentBalance] = useState(0)
   const [totalSavings, setTotalSavings] = useState(0)
   const [totalInvested, setTotalInvested] = useState(0)
+  const debits = transactions.filter(t => t.type === "debited")
+
 
   // const BASE_URL = "http://localhost:8000/vision"
   const BASE_URL = import.meta.env.VITE_API_URL
@@ -240,6 +245,10 @@ function App() {
 )}
 
           </div>
+<DebitLimitChart />
+{/* <SpendLimitChart debits={debits} /> */}
+
+
 
         </section>
       </main>

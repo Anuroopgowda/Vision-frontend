@@ -8,7 +8,7 @@ import {
   ResponsiveContainer
 } from "recharts"
 
-const BASE_URL = "http://localhost:8000/vision"
+const BASE_URL = "https://vision-yw22.onrender.com/vision"
 
 export default function DebitLimitChart() {
   const [category, setCategory] = useState("Recharge")

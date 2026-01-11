@@ -4,6 +4,7 @@ import MonthYearSelector from "./components/MonthYearSelector"
 import TransactionInput from "./components/TransactionInput"
 import SpendLimitChart from "./components/SpendLimitChart"
 import DebitLimitChart from "./components/DebitLimitChart"
+import HideableAmount from "./components/HideableAmount"
 
 
 const months = [
@@ -161,9 +162,9 @@ function App() {
 
       {/* Lifetime Summary */}
       <div className="lifetime-summary">
-        <div>🏦 Current Balance: ₹{currentBalance}</div>
-        <div>💰 Total Savings: ₹{totalSavings}</div>
-        <div>📈 Total Invested: ₹{totalInvested}</div>
+        <HideableAmount label="Current Balance" amount={currentBalance} />
+        <HideableAmount label="Total Savings" amount={totalSavings} />
+        <HideableAmount label="Total Invested" amount={totalInvested} />
       </div>
 
       <MonthYearSelector
@@ -188,16 +189,16 @@ function App() {
               <h2>{months[month - 1]} {year}</h2>
 
               <div className="amount-summary">
-                <div>Opening: ₹{openingBalance}</div>
-                <div>Closing: ₹{closingBalance}</div>
+                <HideableAmount label="Opening" amount={openingBalance} />
+                <HideableAmount label="Closing" amount={closingBalance} />
               </div>
             </div>
 
             <div className="stats">
-              <div>Income: ₹{income}</div>
-              <div>Expense: ₹{expense}</div>
-              <div>Savings: ₹{saving}</div>
-              <div>Invested: ₹{invested}</div>
+              <HideableAmount label="Income" amount={income} />
+              <HideableAmount label="Expense" amount={expense} />
+              <HideableAmount label="Savings" amount={saving} />
+              <HideableAmount label="Invested" amount={invested} />
             </div>
 
             <div style={{ margin: "12px 0" }}>
